@@ -2,7 +2,6 @@ import pandas as pd
 import json
 import collections
 import os
-
 import sys 
 def analyze(fn):
     df = pd.read_csv(fn,encoding='latin1' )
@@ -10,17 +9,18 @@ def analyze(fn):
 
     for  col in df:
         data= list(set(df[col].fillna('(blanks)')))
-        data_len=len(data)
-        #all_data[col]['Count']=data_len
-        
-        try : data =sorted(data)
-        except: pass
+
+        try :
+            data =sorted(data)
+        except: 
+            pass
+
         all_data[data_len]={col:data}
 
+        data_len=len(data)
         print('\n',col,':',data_len)
         if data_len<20:
-                
-                print (*data,sep = "\n")  
+            print (*data,sep = "\n")  
         else :
             print ('too_much to print, refer to output report')
 
@@ -28,7 +28,6 @@ def analyze(fn):
     report_name=f'analyze_report_{os.path.basename(fn)}.json'
     with open(report_name, "w") as outfile:
         json.dump(od, outfile,indent=4)
-
 
     print (report_name," is created")    
    
@@ -41,4 +40,3 @@ if __name__=="__main__":
                 analyze(arg)
             except:
                 pass 
-
